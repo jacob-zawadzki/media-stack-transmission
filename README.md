@@ -18,6 +18,9 @@ docker network create mynetwork
 
 # Install Jellyfin, Radarr, Sonarr, Jackett and Transmission stack
 docker compose --profile stack-1 up -d
+
+# Install Plex, Radarr, Sonarr, Jackett and Transmission stack
+docker-compose --profile stack-2 up -d
 ```
 
 ## Configure Transmission
