@@ -1,0 +1,112 @@
+version: "3.9"
+name: media-stack
+services:
+  transmission:
+    profiles: ["tx", "stack-1"]
+    container_name: transmission
+    image: linuxserver/transmission:4.0.3
+    networks:
+      - mynetwork
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+      - USER=admin
+      - PASS=admin
+
+    ## Comment below ports if VPN is enabled.
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    volumes:
+      - tx-config:/config
+      - torrent-downloads:/downloads
+      - tx-watch:/watch
+    restart: "unless-stopped"
+
+  radarr:
+    profiles: ["base", "radarr", "stack-1"]
+    container_name: radarr
+    image: linuxserver/radarr:4.4.4
+    networks:
+      - mynetwork
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    ports:
+      - 7878:7878
+    volumes:
+      - radarr-config:/config
+      - torrent-downloads:/downloads
+    restart: "unless-stopped"
+
+  sonarr:
+    profiles: ["base", "sonarr", "stack-1",]
+    image: linuxserver/sonarr:4.0.0-develop
+    container_name: sonarr
+    networks:
+      - mynetwork
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    volumes:
+      - sonarr-config:/config
+      - torrent-downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  jackett:
+    profiles: ["jackett", "stack-1"]
+    container_name: jackett
+    image: linuxserver/jackett:0.20.4078
+    networks:
+      - mynetwork
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    volumes:
+      - jackett-config:/config
+      - jackett-blackhole:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+
+  jellyfin:
+    profiles: ["base", "jelly", "stack-1"]
+    image: linuxserver/jellyfin:10.8.10
+    container_name: jellyfin
+    networks:
+      - mynetwork
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    volumes:
+      - jellyfin-config:/config
+      - torrent-downloads:/data
+  # devices:
+   #  - /dev/videoN:/dev/videoN # Mount GPU device 
+    ports:
+      - 8096:8096
+      - 7359:7359/udp
+      - 8920:8920
+    restart: unless-stopped
+  
+volumes:
+  torrent-downloads:
+  radarr-config:
+  sonarr-config:
+  jackett-config:
+  jackett-blackhole:
+  jellyfin-config:
+  tx-config:
+  tx-watch:
+
+networks:
+  mynetwork:
+    external: true
