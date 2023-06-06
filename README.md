@@ -12,6 +12,7 @@ A stack of self-hosted media managers and streamer along with VPN.
 
 `stack-1` This stack contains Jellyfin, Radarr, Sonarr, Jackett and Transmission.
 
+`stack-2` This stack contains Plex, Radarr, Sonarr, Jackett and Transmission.
 
 ```
 docker network create mynetwork
