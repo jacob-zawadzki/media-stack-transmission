@@ -2,7 +2,7 @@ version: "3.9"
 name: media-stack
 services:
   transmission:
-    profiles: ["tx", "stack-1"]
+    profiles: ["tx", "stack-1", "stack-2"]
     container_name: transmission
     image: linuxserver/transmission:4.0.3
     networks:
@@ -26,7 +26,7 @@ services:
     restart: "unless-stopped"
 
   radarr:
-    profiles: ["base", "radarr", "stack-1"]
+    profiles: ["base", "radarr", "stack-1", "stack-2"]
     container_name: radarr
     image: linuxserver/radarr:4.4.4
     networks:
@@ -43,7 +43,7 @@ services:
     restart: "unless-stopped"
 
   sonarr:
-    profiles: ["base", "sonarr", "stack-1",]
+    profiles: ["base", "sonarr", "stack-1", "stack-2"]
     image: linuxserver/sonarr:4.0.0-develop
     container_name: sonarr
     networks:
@@ -60,7 +60,7 @@ services:
     restart: unless-stopped
 
   jackett:
-    profiles: ["jackett", "stack-1"]
+    profiles: ["jackett", "stack-1", "stack-2"]
     container_name: jackett
     image: linuxserver/jackett:0.20.4078
     networks:
@@ -97,6 +97,22 @@ services:
       - 8920:8920
     restart: unless-stopped
   
+  plex:
+    profiles: ["base", "plex", "stack-2"]
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    networks:
+      - mynetwork
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+      - VERSION=docker
+    ports:
+      - 32400:32400
+    volumes:
+      - torrent-downloads:/downloads
+    restart: unless-stopped
 volumes:
   torrent-downloads:
   radarr-config:
