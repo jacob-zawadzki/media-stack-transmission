@@ -20,9 +20,9 @@ services:
       - 51413:51413
       - 51413:51413/udp
     volumes:
-      - tx-config:/config
-      - torrent-downloads:/downloads
-      - tx-watch:/watch
+      - C:\Users\johng\Media-stack:/config
+      - C:\Users\johng\Media-stack:/downloads
+      - C:\Users\johng\Media-stack:/watch
     restart: "unless-stopped"
 
   radarr:
@@ -38,8 +38,8 @@ services:
     ports:
       - 7878:7878
     volumes:
-      - radarr-config:/config
-      - torrent-downloads:/downloads
+      - C:\Users\johng\Media-stack:/config
+      - C:\Users\johng\Media-stack:/downloads
     restart: "unless-stopped"
 
   sonarr:
@@ -53,8 +53,8 @@ services:
       - PGID=1000
       - TZ=UTC
     volumes:
-      - sonarr-config:/config
-      - torrent-downloads:/downloads
+      - C:\Users\johng\Media-stack:/config
+      - C:\Users\johng\Media-stack:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -70,8 +70,8 @@ services:
       - PGID=1000
       - TZ=UTC
     volumes:
-      - jackett-config:/config
-      - jackett-blackhole:/downloads
+      - C:\Users\johng\Media-stack:/config
+      - C:\Users\johng\Media-stack:/downloads
     ports:
       - 9117:9117
     restart: unless-stopped
@@ -87,8 +87,8 @@ services:
       - PGID=1000
       - TZ=UTC
     volumes:
-      - jellyfin-config:/config
-      - torrent-downloads:/data
+      - C:\Users\johng\Media-stack:/config
+      - C:\Users\johng\Media-stack:/data
     ports:
       - 8096:8096
       - 7359:7359/udp
@@ -109,17 +109,17 @@ services:
     ports:
       - 32400:32400
     volumes:
-      - torrent-downloads:/downloads
+      - C:\Users\johng\Media-stack:/downloads
     restart: unless-stopped
-volumes:
-  torrent-downloads:
-  radarr-config:
-  sonarr-config:
-  jackett-config:
-  jackett-blackhole:
-  jellyfin-config:
-  tx-config:
-  tx-watch:
+# volumes:
+#   torrent-downloads:
+#   radarr-config:
+#   sonarr-config:
+#   jackett-config:
+#   jackett-blackhole:
+#   jellyfin-config:
+#   tx-config:
+#   tx-watch:
 
 networks:
   mynetwork:
